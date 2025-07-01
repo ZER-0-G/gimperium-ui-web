@@ -1,116 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>G‑IMPERIUM™ :: Control Center</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"><title>G‑IMPERIUM™</title>
   <style>
-    body {
-      margin: 0;
-      background-color: #0d1117;
-      color: #00ffe0;
-      font-family: monospace;
-      padding: 2rem;
-    }
-    h1 { font-size: 2rem; color: #00ffff; }
-    .module {
-      border: 1px solid #00ffe0;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      background: #111927;
-    }
-    button, input[type=submit] {
-      background-color: #00ffe0;
-      color: #000;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    input, textarea {
-      background-color: #0d1117;
-      color: #00ffe0;
-      border: 1px solid #00ffe0;
-      padding: 0.5rem;
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-    textarea { height: 150px; }
-    .hidden { display: none; }
+    body { background-color:#000; color:#0ff; font-family:monospace; padding:2em; }
+    h1 { color:#0ff; } .module { border:1px solid #0ff; padding:1em; margin:1em 0; border-radius:1em; }
+    button { background:#0ff; color:#000; border:none; padding:10px; border-radius:5px; margin-top:5px; }
+    button:hover { background:#0dd; }
   </style>
 </head>
 <body>
-  <h1>G‑IMPERIUM™ Unified Interface</h1>
-
-  <div class="module" id="login-panel">
-    <h2>Admin Login</h2>
-    <input type="password" id="admin-pass" placeholder="Wachtwoord..."/>
-    <button onclick="checkLogin()">Login</button>
-    <p id="login-status"></p>
-  </div>
-
-  <div id="main-ui" class="hidden">
-    <div class="module">
-      <h2>🧠 Imperion AI</h2>
-      <textarea id="ai-input" placeholder="Stel je vraag..."></textarea>
-      <button onclick="sendPrompt()">Verzend</button>
-      <pre id="ai-output">...</pre>
-    </div>
-
-    <div class="module">
-      <h2>📊 VaultNet™ Logs</h2>
-      <button onclick="loadVault()">Ververs Logs</button>
-      <pre id="vault-log">Geen data...</pre>
-    </div>
-
-    <div class="module">
-      <h2>💳 PulsePay™ Transacties</h2>
-      <button onclick="loadPay()">Ververs Transacties</button>
-      <pre id="pay-log">Geen data...</pre>
-    </div>
-  </div>
-
-  <script>
-    const API_BASE = location.hostname === "localhost" ? "http://localhost:8000" : "https://api.bgs8.com";
-
-    function checkLogin() {
-      const pass = document.getElementById("admin-pass").value;
-      if (pass === "gimperium") {
-        document.getElementById("main-ui").classList.remove("hidden");
-        document.getElementById("login-panel").classList.add("hidden");
-      } else {
-        document.getElementById("login-status").innerText = "❌ Ongeldig wachtwoord";
-      }
-    }
-
-    function sendPrompt() {
-      const prompt = document.getElementById("ai-input").value;
-      fetch(API_BASE + "/api/imperion", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("ai-output").textContent = data.response || JSON.stringify(data);
-      })
-      .catch(() => document.getElementById("ai-output").textContent = "❌ Backend offline");
-    }
-
-    function loadVault() {
-      fetch(API_BASE + "/api/vaultnet")
-        .then(res => res.text())
-        .then(data => document.getElementById("vault-log").textContent = data)
-        .catch(() => document.getElementById("vault-log").textContent = "❌ Geen verbinding");
-    }
-
-    function loadPay() {
-      fetch(API_BASE + "/api/paylog")
-        .then(res => res.text())
-        .then(data => document.getElementById("pay-log").textContent = data)
-        .catch(() => document.getElementById("pay-log").textContent = "❌ Geen verbinding");
-    }
-  </script>
+  <h1>G‑IMPERIUM™ Web UI</h1>
+  <div class="module"><h2>Imperion™</h2><p>Status: Online</p><button onclick="alert('AI-log gestart')">Log AI</button></div>
+  <div class="module"><h2>VaultNet™</h2><p>Status: Actief</p><button onclick="alert('Vault geopend')">Bekijk Logs</button></div>
+  <div class="module"><h2>AegisPrime™</h2><p>Status: Secure</p><button onclick="alert('Scan gestart')">Beveiligingssysteem</button></div>
 </body>
 </html>
