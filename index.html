@@ -1,88 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G‑IMPERIUM™ | Unified Command Interface</title>
+  <meta charset="UTF-8"><title>G‑IMPERIUM™</title>
   <style>
-    body {
-      background-color: #0d1117;
-      color: #00ffe0;
-      font-family: 'Courier New', monospace;
-      margin: 0;
-      padding: 2rem;
-    }
-    h1 {
-      font-size: 2rem;
-      color: #00ffff;
-      margin-bottom: 1rem;
-    }
-    .module {
-      border: 1px solid #00ffe0;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 12px;
-      background-color: #111827;
-    }
-    button {
-      background-color: #00ffe0;
-      color: #000;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #00e6c0;
-    }
-    .status {
-      font-weight: bold;
-      color: #afffff;
-    }
+    body { background-color:#000; color:#0ff; font-family:monospace; padding:2em; }
+    h1 { color:#0ff; } .module { border:1px solid #0ff; padding:1em; margin:1em 0; border-radius:1em; }
+    button { background:#0ff; color:#000; border:none; padding:10px; border-radius:5px; margin-top:5px; }
+    button:hover { background:#0dd; }
   </style>
 </head>
 <body>
-  <h1>G‑IMPERIUM™ CONTROL PANEL</h1>
-
-  <div class="module">
-    <h2>Imperion™ AI Core</h2>
-    <p>Status: <span class="status">Online</span></p>
-    <button onclick="alert('AI-log gestart')">Start AI Log</button>
-  </div>
-
-  <div class="module">
-    <h2>VaultNet™</h2>
-    <p>Activa tracking & logging</p>
-    <button onclick="alert('Vault-logs opgevraagd')">Bekijk logs</button>
-  </div>
-
-  <div class="module">
-    <h2>AegisPrime™</h2>
-    <p>Systeembeveiliging</p>
-    <button onclick="alert('Systeemscan gestart')">Scan systeem</button>
-  </div>
-
-  <div class="module">
-    <h2>PulsePay™</h2>
-    <p>Live transactiestatus</p>
-    <button onclick="alert('Transactielog geopend')">Toon transacties</button>
-  </div>
-
-  <div class="module">
-    <h2>Backend status</h2>
-    <p id="backend-status">Laden...</p>
-  </div>
-
-  <script>
-    // Realtime backend ping
-    fetch("http://localhost:8000/")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("backend-status").textContent = data.status;
-      })
-      .catch(err => {
-        document.getElementById("backend-status").textContent = "❌ Niet bereikbaar";
-      });
-  </script>
+  <h1>G‑IMPERIUM™ Web UI</h1>
+  <div class="module"><h2>Imperion™</h2><p>Status: Online</p><button onclick="alert('AI-log gestart')">Log AI</button></div>
+  <div class="module"><h2>VaultNet™</h2><p>Status: Actief</p><button onclick="alert('Vault geopend')">Bekijk Logs</button></div>
+  <div class="module"><h2>AegisPrime™</h2><p>Status: Secure</p><button onclick="alert('Scan gestart')">Beveiligingssysteem</button></div>
 </body>
 </html>
