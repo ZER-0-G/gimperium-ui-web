@@ -1,66 +1,97 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>G‑IMPERIUM Dashboard</title>
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: sans-serif;
-            margin: 40px;
-        }
-        input, button {
-            background-color: #161b22;
-            color: #ffffff;
-            border: 1px solid #30363d;
-            padding: 10px;
-            margin-top: 10px;
-            width: 100%;
-        }
-        .log-box {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            padding: 10px;
-            height: 300px;
-            overflow-y: scroll;
-            white-space: pre-wrap;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>G‑IMPERIUM™ Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0f172a;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    .card {
+      @apply p-4 rounded-2xl shadow-lg bg-gray-800 border border-gray-700;
+    }
+  </style>
 </head>
-<body>
-    <h1>G‑IMPERIUM :: Imperion AI</h1>
+<body class="min-h-screen p-6">
+  <header class="mb-6">
+    <h1 class="text-4xl font-bold text-center mb-2">G‑IMPERIUM™ Command & Control Dashboard</h1>
+    <p class="text-center text-gray-400">System Status • Asset Control • AI Interface • Vault Access</p>
+  </header>
 
-    <input id="cmdInput" type="text" placeholder="Voer commando in...">
-    <button onclick="sendCommand()">Verstuur naar backend</button>
+  <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">🧠 Imperion AI</h2>
+      <textarea id="ai-input" class="w-full p-2 text-black" rows="4" placeholder="Type command..."></textarea>
+      <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 p-2 rounded">Submit</button>
+      <pre id="ai-output" class="mt-2 p-2 bg-black text-green-400 h-32 overflow-auto">Awaiting command...</pre>
+    </div>
 
-    <h2>Logging (VaultNet)</h2>
-    <div class="log-box" id="logBox">[Logs worden geladen...]</div>
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">🔐 VaultNet™</h2>
+      <p>Status: <span class="text-green-400">Secure</span></p>
+      <p>Total Holdings: €112.8T</p>
+      <p>Live Forex Layer: ✅</p>
+      <p>Blockchain Sync: ✅</p>
+    </div>
 
-    <script>
-        async function sendCommand() {
-            const cmd = document.getElementById("cmdInput").value;
-            const res = await fetch("http://localhost:8000/imperion/command", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ cmd: cmd })
-            });
-            const data = await res.json();
-            alert("Respons: " + JSON.stringify(data));
-        }
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">💸 PulsePay™</h2>
+      <p>Payments Today: €213M</p>
+      <p>Pending Transactions: 3</p>
+      <button class="mt-2 bg-green-600 hover:bg-green-700 p-2 rounded w-full">Sync Now</button>
+    </div>
 
-        async function fetchLogs() {
-            try {
-                const res = await fetch("log_ai.json");
-                const text = await res.text();
-                document.getElementById("logBox").textContent = text;
-            } catch {
-                document.getElementById("logBox").textContent = "[Geen logs gevonden]";
-            }
-        }
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">📊 G‑Bank™</h2>
+      <p>Core Layer: €8.6T</p>
+      <p>Market Layer: €20.0T</p>
+      <p>Bond Layer: €34.2T</p>
+    </div>
 
-        setInterval(fetchLogs, 3000);
-        fetchLogs();
-    </script>
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">🛡️ AegisPrime</h2>
+      <p>Protection Level: MAX</p>
+      <p>Threats: 0</p>
+      <p>Last Breach: Never</p>
+    </div>
+
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">⏳ ChronoPath++</h2>
+      <p>OG Timeline Sync: ✅</p>
+      <p>Historical Lock: Active</p>
+    </div>
+
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">🧬 G‑View™</h2>
+      <p>Current Observation: Cosmic Layer</p>
+      <p>Emerald Skull: Locked</p>
+      <p>Fabergé Eggs: Vaulted</p>
+    </div>
+
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">🔭 Atlantis OS™</h2>
+      <p>Bond Acquisition: Enabled</p>
+      <p>Staking Active: YES</p>
+    </div>
+
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-2">🧾 LogStream</h2>
+      <textarea class="w-full h-32 p-2 text-black overflow-auto" readonly>
+System Log Initialized...
+Imperion AI Online.
+PulsePay Synced.
+VaultNet Connected.
+      </textarea>
+    </div>
+  </main>
+
+  <footer class="mt-8 text-center text-gray-500 text-sm">
+    &copy; 2025 GVSTRADING™ / G‑IMPERIUM™. All rights reserved.
+  </footer>
 </body>
 </html>
