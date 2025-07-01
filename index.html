@@ -1,14 +1,66 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>G-IMPERIUM Frontend</title>
+    <meta charset="UTF-8">
+    <title>G‑IMPERIUM Dashboard</title>
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: sans-serif;
+            margin: 40px;
+        }
+        input, button {
+            background-color: #161b22;
+            color: #ffffff;
+            border: 1px solid #30363d;
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .log-box {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 <body>
-  <script>
-    const API_BASE = "https://7f22-159-100-109-72.ngrok-free.app";
-    console.log("API base is:", API_BASE);
-  </script>
-  <h1>Welkom bij G-IMPERIUM frontend</h1>
+    <h1>G‑IMPERIUM :: Imperion AI</h1>
+
+    <input id="cmdInput" type="text" placeholder="Voer commando in...">
+    <button onclick="sendCommand()">Verstuur naar backend</button>
+
+    <h2>Logging (VaultNet)</h2>
+    <div class="log-box" id="logBox">[Logs worden geladen...]</div>
+
+    <script>
+        async function sendCommand() {
+            const cmd = document.getElementById("cmdInput").value;
+            const res = await fetch("http://localhost:8000/imperion/command", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ cmd: cmd })
+            });
+            const data = await res.json();
+            alert("Respons: " + JSON.stringify(data));
+        }
+
+        async function fetchLogs() {
+            try {
+                const res = await fetch("log_ai.json");
+                const text = await res.text();
+                document.getElementById("logBox").textContent = text;
+            } catch {
+                document.getElementById("logBox").textContent = "[Geen logs gevonden]";
+            }
+        }
+
+        setInterval(fetchLogs, 3000);
+        fetchLogs();
+    </script>
 </body>
 </html>
