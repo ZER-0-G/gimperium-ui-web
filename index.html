@@ -1,97 +1,89 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>G‑IMPERIUM™ Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #0f172a;
-      color: white;
-      font-family: 'Inter', sans-serif;
-    }
-    .card {
-      @apply p-4 rounded-2xl shadow-lg bg-gray-800 border border-gray-700;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen p-6">
-  <header class="mb-6">
-    <h1 class="text-4xl font-bold text-center mb-2">G‑IMPERIUM™ Command & Control Dashboard</h1>
-    <p class="text-center text-gray-400">System Status • Asset Control • AI Interface • Vault Access</p>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
+
+  <!-- Header -->
+  <header class="p-4 bg-gray-800 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold tracking-wide">G‑IMPERIUM™</h1>
+    <button id="loginBtn" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-xl">Admin Login</button>
   </header>
 
-  <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">🧠 Imperion AI</h2>
-      <textarea id="ai-input" class="w-full p-2 text-black" rows="4" placeholder="Type command..."></textarea>
-      <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 p-2 rounded">Submit</button>
-      <pre id="ai-output" class="mt-2 p-2 bg-black text-green-400 h-32 overflow-auto">Awaiting command...</pre>
-    </div>
+  <!-- Main Content -->
+  <main class="p-6 grid gap-6 lg:grid-cols-3 grid-cols-1">
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">🔐 VaultNet™</h2>
-      <p>Status: <span class="text-green-400">Secure</span></p>
-      <p>Total Holdings: €112.8T</p>
-      <p>Live Forex Layer: ✅</p>
-      <p>Blockchain Sync: ✅</p>
-    </div>
+    <!-- Imperion AI Panel -->
+    <section class="bg-gray-800 rounded-2xl shadow-lg p-5 col-span-2 flex flex-col">
+      <h2 class="text-xl mb-2 font-semibold">Imperion AI</h2>
+      <textarea id="aiInput" rows="3" class="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400 mb-2" placeholder="Enter your command or query..."></textarea>
+      <button id="submitAI" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-xl self-end">Send</button>
+      <div id="aiOutput" class="mt-4 bg-gray-700 p-4 rounded text-sm overflow-y-auto max-h-60"></div>
+    </section>
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">💸 PulsePay™</h2>
-      <p>Payments Today: €213M</p>
-      <p>Pending Transactions: 3</p>
-      <button class="mt-2 bg-green-600 hover:bg-green-700 p-2 rounded w-full">Sync Now</button>
-    </div>
+    <!-- Status Panels -->
+    <section class="bg-gray-800 rounded-2xl shadow-lg p-5 flex flex-col justify-between">
+      <h2 class="text-xl font-semibold mb-4">System Monitor</h2>
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">📊 G‑Bank™</h2>
-      <p>Core Layer: €8.6T</p>
-      <p>Market Layer: €20.0T</p>
-      <p>Bond Layer: €34.2T</p>
-    </div>
+      <div class="mb-4">
+        <p class="text-gray-400 text-sm">VaultNet™ Status:</p>
+        <p id="vaultStatus" class="font-mono text-green-400">✓ Synced</p>
+      </div>
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">🛡️ AegisPrime</h2>
-      <p>Protection Level: MAX</p>
-      <p>Threats: 0</p>
-      <p>Last Breach: Never</p>
-    </div>
+      <div class="mb-4">
+        <p class="text-gray-400 text-sm">PulsePay™ Activity:</p>
+        <p id="pulseActivity" class="font-mono text-yellow-400">↻ Processing...</p>
+      </div>
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">⏳ ChronoPath++</h2>
-      <p>OG Timeline Sync: ✅</p>
-      <p>Historical Lock: Active</p>
-    </div>
+      <div class="mb-4">
+        <p class="text-gray-400 text-sm">Logfile:</p>
+        <div id="realtimeLog" class="text-xs bg-gray-700 p-2 rounded h-24 overflow-y-auto">[LOG INIT]</div>
+      </div>
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">🧬 G‑View™</h2>
-      <p>Current Observation: Cosmic Layer</p>
-      <p>Emerald Skull: Locked</p>
-      <p>Fabergé Eggs: Vaulted</p>
-    </div>
+      <button id="exportLogs" class="bg-gray-600 hover:bg-gray-500 mt-2 px-3 py-1 rounded">Export Logs</button>
+    </section>
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">🔭 Atlantis OS™</h2>
-      <p>Bond Acquisition: Enabled</p>
-      <p>Staking Active: YES</p>
-    </div>
+    <!-- API Gateway -->
+    <section class="col-span-3 bg-gray-800 rounded-2xl shadow-lg p-5">
+      <h2 class="text-xl font-semibold mb-3">Public API Gateway</h2>
+      <p class="text-sm text-gray-400 mb-4">Access public API endpoints or connect integrations.</p>
+      <a href="/api/docs" target="_blank" class="inline-block bg-teal-600 hover:bg-teal-500 px-4 py-2 rounded-xl text-white font-medium">Open API Docs</a>
+    </section>
 
-    <div class="card">
-      <h2 class="text-xl font-semibold mb-2">🧾 LogStream</h2>
-      <textarea class="w-full h-32 p-2 text-black overflow-auto" readonly>
-System Log Initialized...
-Imperion AI Online.
-PulsePay Synced.
-VaultNet Connected.
-      </textarea>
-    </div>
   </main>
 
-  <footer class="mt-8 text-center text-gray-500 text-sm">
-    &copy; 2025 GVSTRADING™ / G‑IMPERIUM™. All rights reserved.
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-center p-4 text-xs text-gray-500 mt-auto">
+    &copy; 2025 GVSTRADING™ · All systems monitored via VaultNet™
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    document.getElementById("submitAI").addEventListener("click", () => {
+      const input = document.getElementById("aiInput").value;
+      const output = document.getElementById("aiOutput");
+      const log = document.getElementById("realtimeLog");
+
+      // Simulated AI output
+      const response = "Imperion™ executed: " + input;
+      output.innerText = response;
+      log.innerHTML += `<div>[AI EXEC]: ${input}</div>`;
+    });
+
+    document.getElementById("exportLogs").addEventListener("click", () => {
+      const log = document.getElementById("realtimeLog").innerText;
+      const blob = new Blob([log], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "gimperium_log.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
 </body>
 </html>
