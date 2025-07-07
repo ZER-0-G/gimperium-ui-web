@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>G‑PAY | Kies je betaalmethode</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            padding: 2em;
+        }
+        .container {
+            max-width: 600px;
+            background: #1b1b1b;
+            margin: auto;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #0ff4;
+        }
+        select, input, button {
+            width: 100%;
+            margin: 1em 0;
+            padding: 0.8em;
+            border-radius: 6px;
+            border: none;
+            font-size: 1em;
+        }
+        button {
+            background: #00ffc3;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        a {
+            color: #00ffc3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💳 G‑PAY Betaalsysteem</h1>
+        <p>Voer een bedrag in en kies je betaalmethode:</p>
+
+        <form id="payment-form">
+            <input type="number" id="amount" placeholder="Bedrag in EUR" step="0.01" value="10.00" required>
+            <select id="method" required>
+                <option value="ideal">iDEAL</option>
+                <option value="creditcard">Creditcard</option>
+                <option value="paypal">PayPal</option>
+                <option value="bancontact">Bancontact</option>
+                <option value="sepadirectdebit">SEPA/IBAN</option>
+                <option value="applepay">Apple Pay</option>
+                <option value="sofort">SOFORT</option>
+                <option value="klarnapaylater">Klarna (Betaal later)</option>
+            </select>
+            <button type="submit">Start betaling</button>
+        </form>
+
+        <div id="response"></div>
+    </div>
+
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('amount').value).toFixed(2);
+            const method = document.getElementById('method').value;
+
+            const payload = {
+                amount: { currency: "EUR", value: amount },
+                description: "G‑PAY betaling via frontend",
+                redirectUrl: "https://bgs8.com/bedankt.html",
+                webhookUrl: "https://api.bgs8.com/webhook",
+                method: method,
+                metadata: { order_id: "GLX-PAYMENT-" + Date.now() }
+            };
+
+            const res = await fetch("https://api.bgs8.com/create-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            const responseDiv = document.getElementById("response");
+
+            if (data.payment && data.payment._links && data.payment._links.checkout) {
+                responseDiv.innerHTML = \`
+                    <p>✅ Betaling aangemaakt.</p>
+                    <a href="\${data.payment._links.checkout.href}" target="_blank">
+                        <button>Ga naar betaallink</button>
+                    </a>
+                \`;
+            } else {
+                responseDiv.innerHTML = '<p>❌ Fout bij aanmaken betaling.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
