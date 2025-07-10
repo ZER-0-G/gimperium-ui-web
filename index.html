@@ -1,88 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>G‑IMPERIUM™ Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BGS8 App</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
-
-  <!-- Header -->
-  <header class="p-4 bg-gray-800 shadow-md flex justify-between items-center">
-    <h1 class="text-2xl font-bold tracking-wide">G‑IMPERIUM™</h1>
-    <button id="loginBtn" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-xl">Admin Login</button>
+<body>
+  <header>
+    <h1>Welkom bij BGS8</h1>
   </header>
 
-  <!-- Main Content -->
-  <main class="p-6 grid gap-6 lg:grid-cols-3 grid-cols-1">
-
-    <!-- Imperion AI Panel -->
-    <section class="bg-gray-800 rounded-2xl shadow-lg p-5 col-span-2 flex flex-col">
-      <h2 class="text-xl mb-2 font-semibold">Imperion AI</h2>
-      <textarea id="aiInput" rows="3" class="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400 mb-2" placeholder="Enter your command or query..."></textarea>
-      <button id="submitAI" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-xl self-end">Send</button>
-      <div id="aiOutput" class="mt-4 bg-gray-700 p-4 rounded text-sm overflow-y-auto max-h-60"></div>
-    </section>
-
-    <!-- Status Panels -->
-    <section class="bg-gray-800 rounded-2xl shadow-lg p-5 flex flex-col justify-between">
-      <h2 class="text-xl font-semibold mb-4">System Monitor</h2>
-
-      <div class="mb-4">
-        <p class="text-gray-400 text-sm">VaultNet™ Status:</p>
-        <p id="vaultStatus" class="font-mono text-green-400">✓ Synced</p>
-      </div>
-
-      <div class="mb-4">
-        <p class="text-gray-400 text-sm">PulsePay™ Activity:</p>
-        <p id="pulseActivity" class="font-mono text-yellow-400">↻ Processing...</p>
-      </div>
-
-      <div class="mb-4">
-        <p class="text-gray-400 text-sm">Logfile:</p>
-        <div id="realtimeLog" class="text-xs bg-gray-700 p-2 rounded h-24 overflow-y-auto">[LOG INIT]</div>
-      </div>
-
-      <button id="exportLogs" class="bg-gray-600 hover:bg-gray-500 mt-2 px-3 py-1 rounded">Export Logs</button>
-    </section>
-
-    <!-- API Gateway -->
-    <section class="col-span-3 bg-gray-800 rounded-2xl shadow-lg p-5">
-      <h2 class="text-xl font-semibold mb-3">Public API Gateway</h2>
-      <p class="text-sm text-gray-400 mb-4">Access public API endpoints or connect integrations.</p>
-      <a href="/api/docs" target="_blank" class="inline-block bg-teal-600 hover:bg-teal-500 px-4 py-2 rounded-xl text-white font-medium">Open API Docs</a>
-    </section>
-
+  <main>
+    <p>Dit is de frontend verbonden met de backend op ngrok.</p>
+    <button id="getDataBtn">Haal Data Op</button>
+    <pre id="output"></pre>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-center p-4 text-xs text-gray-500 mt-auto">
-    &copy; 2025 GVSTRADING™ · All systems monitored via VaultNet™
+  <footer>
+    <p>&copy; 2025 BGS8</p>
   </footer>
 
-  <!-- Scripts -->
   <script>
-    document.getElementById("submitAI").addEventListener("click", () => {
-      const input = document.getElementById("aiInput").value;
-      const output = document.getElementById("aiOutput");
-      const log = document.getElementById("realtimeLog");
-
-      // Simulated AI output
-      const response = "Imperion™ executed: " + input;
-      output.innerText = response;
-      log.innerHTML += `<div>[AI EXEC]: ${input}</div>`;
-    });
-
-    document.getElementById("exportLogs").addEventListener("click", () => {
-      const log = document.getElementById("realtimeLog").innerText;
-      const blob = new Blob([log], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "gimperium_log.txt";
-      a.click();
-      URL.revokeObjectURL(url);
+    document.getElementById('getDataBtn').addEventListener('click', async () => {
+      try {
+        const response = await fetch('https://430efaea2ba6.ngrok-free.app/api/data');
+        const data = await response.json();
+        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById('output').textContent = 'Fout bij ophalen data: ' + error;
+      }
     });
   </script>
 </body>
